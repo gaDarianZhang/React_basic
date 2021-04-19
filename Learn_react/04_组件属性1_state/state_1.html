@@ -30,7 +30,7 @@
       }
       render(){
         let {isHot} = this.state; 
-        return <h1 className="pointer" onClick={this.clickHandle}>今天天气真{this.state.isHot?"热呀":"凉快"}</h1>
+        return <h1 className="pointer" onClick={this.clickHandle}>今天天气真{isHot?"热呀":"凉快"}</h1>
       }
       clickHandle(){
         let {isHot} = this.state;

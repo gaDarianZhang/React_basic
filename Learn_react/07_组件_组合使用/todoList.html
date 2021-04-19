@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>todoList</title>
+</head>
+<body>
+
+  <div id="box"></div>
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <!-- <script type="text/javascript" src="../js/prop-types.js"></script> -->
+
+  <script type="text/babel">
+    class App extends React.Component{
+      state = {todoArr:["打boss","游泳","run"]};
+
+      updateState = (data)=>{
+        let {todoArr} = this.state;
+        todoArr.unshift(data);
+        this.setState({todoArr:todoArr});
+      }
+      render(){
+        let {todoArr} = this.state;
+        return (
+          <div>
+            <h1>Simple TodoList</h1>
+            <Add updateState={this.updateState} listLen={todoArr.length}/>
+            <List todoArr={todoArr}/>
+          </div>
+        )
+      }
+    }
+
+    class Add extends React.Component{
+
+      addList = ()=>{
+        let addedValue = this.input.value;
+        this.input.value = '';
+        if(addedValue.trim()==="") return;
+        //将新增数据添加到todoArr，也就是要修改App组件的状态
+        this.props.updateState(addedValue);
+      }
+      render(){
+
+        return (
+          <div>
+            <input type="text" ref={(input)=>{this.input=input}}/>
+            <button onClick={this.addList}>点击添加 #{this.props.listLen}</button>
+          </div>
+        )
+      }
+    }
+
+    class List extends React.Component{
+
+      render(){
+        let {todoArr} = this.props;
+        return (
+          <ul>
+            {
+              todoArr.map((item,index)=><li key={item}>{item}</li>)
+            }
+          </ul>
+        )
+      }
+    }
+
+    ReactDOM.render(<App/>,document.getElementById("box"));
+  </script>
+  
+  
+
+</body>
+</html>
