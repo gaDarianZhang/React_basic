@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>创建组件的两种方式</title>
+</head>
+
+<body>
+  <div id="example1"></div>
+  <div id="example2"></div>
+
+  <script type="text/javascript" src="../../js/react.development.js"></script>
+  <script type="text/javascript" src="../../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    function MyComponent1(){
+      console.log(this);
+      return (
+        <div>
+          <h3>我是工厂函数创建的组件（一些简单组件用这种方式创建,即：无状态）{11+12}</h3>
+          <MyComponent2/>
+        </div>
+      )
+    }
+
+
+
+    function MyComponent2(){
+      return <h3>张涨涨</h3>
+    }
+
+    ReactDOM.render(<MyComponent1/>,document.getElementById("example1"));
+
+    class MyComponent3 extends React.Component{
+      render(){
+        console.log(this);
+        return <h3>我是ES6类组件（一些复杂组件用这种方式创建，即：状态）</h3>
+      }
+
+    }
+
+    ReactDOM.render(<MyComponent3/>,document.getElementById("example2"));
+  </script>
+
+</body>
+
+</html>
