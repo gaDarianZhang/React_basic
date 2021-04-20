@@ -37,6 +37,14 @@
     }
 
     class Add extends React.Component{
+      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //发现第一次给子组件传递props时并不会调用该方法，其实从第二次开始更新props时才会调用该方法，这个方法的名字更应该是componentWillReceiveNewProps()/componentWillUpdateProps()
+      //其实初期生成这个子组件时不调用该方法是应该的。因为生命周期图中可以看到，该方法下边都是update,也就是在组件更新的这条线上，因此组件生成时不会调用该方法。
+      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      componentWillReceiveProps(){
+        console.log('--componentWillReceiveProps--');
+      }
+
 
       addList = ()=>{
         let addedValue = this.input.value;

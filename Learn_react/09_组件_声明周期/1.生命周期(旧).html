@@ -25,20 +25,24 @@
    class Life extends React.Component{
 
      /* 
-        1.【初始化】
-        触发条件：ReactDOM.render(<MyComponent/>)
-          constructor()
-          componentWillMount()
-          render():提供虚拟DOM，可能会调用多次(1+n)。
-          componentDidMount()：启动定时器、发送Ajax请求、只执行一次。 
+      1.【初始化】
+      触发条件：ReactDOM.render(<MyComponent/>)
+        constructor()
+        componentWillMount()
+        render():提供虚拟DOM，可能会调用多次(1+n)。
+        componentDidMount()：启动定时器、发送Ajax请求、只执行一次。 
       2.【更新】
-          触发条件：this.setState({})
+          触发条件：this.setState({})->shouldComponentUpdate()
             componentWillUpdate()
             render()
             componentDidUpdate() 
       3.【卸载】
           触发条件：ReactDOM.unmountComponentAtNode()
           componentWillUnmount()：收尾工作，例如：清除定时器，只执行一次。
+
+      - componentWillReceiveProps应用在E:\webWorkspace\10-react\React_basic\Learn_react\07_组件_组合使用\todoList.html
+          发现第一次给子组件传递props时并不会调用该方法，其实从第二次开始更新props时才会调用该方法，这个方法的名字更应该是componentWillReceiveNewProps()/componentWillUpdateProps()
+          其实初期生成这个子组件时不调用该方法是应该的。因为生命周期图中可以看到，该方法下边都是update,也就是在组件更新的这条线上，因此组件生成时不会调用该方法。
       */
      //构造器
      constructor(a){
@@ -64,12 +68,15 @@
         let {opacity} = this.state
         opacity -= 0.1
         if(opacity <= 0){
-        opacity = 1
+          opacity = 1
         }
         this.setState({opacity})
       },200)
     }
-
+    //用于控制组件是否应该更新a
+    shouldComponentUpdate(){
+      return true
+    }
     //组件将要更新
     componentWillUpdate(){
       console.log('--componentWillUpdate--');
@@ -86,17 +93,16 @@
       console.log('--componentWillUnmount--');
     }
 
-    //用于控制组件是否应该更新a
-    shouldComponentUpdate(){
-      return true
-    }
+
     
     //自定义的death方法，调用该方法把组件从页面中卸载
     death = ()=>{
+      //注意这里有一个unmountComponentAtNode(),卸载组件!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       ReactDOM.unmountComponentAtNode(document.getElementById('example'))
     }
 
     demo = ()=>{
+      //注意这里有一个forceUpdate(),卸载组件!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       this.forceUpdate()
     }
      render(){
